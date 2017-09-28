@@ -10,41 +10,54 @@ namespace APSCrypto
     {
         static void Main(string[] args)
         {
-            string msg1, msg2;
+            //variaveis das mensagens não criptografadas
+            string msg1, msg2, cript1, cript2;
+            //variavel de identificação do usuário
             int id;
-            long cript1, cript2;
+            //array com as senhas cadastradas
             int[] senha = new int[2];
 
+
+            //cadastro da chave do usuário
             Console.WriteLine("Cadastre a sua chave:");
             senha[0] = int.Parse(Console.ReadLine());
-
+            //cadastro da chave do segundo usuário
             Console.WriteLine("Cadastre a chave a segunda chave:");
             senha[1] = int.Parse(Console.ReadLine());
 
             Console.Clear();
 
+            //entrada da chave do usuário
             Console.WriteLine("Digite a sua chave:");
             id = int.Parse(Console.ReadLine());
 
             Console.Clear();
 
+            //leitura do array
             foreach (char i in senha)
             {
+               //comparação se a chave do usuário está cadastrada no array
                if(id == i)
                 {
                     Console.WriteLine("Escreva o caralho:");
                     msg1 = Console.ReadLine();
 
-                    Console.WriteLine(StringToBinary(msg1));
+                    //chamada da função de conversão para binário
+                    cript1 = (StringToBinary(msg1));
+                    Console.WriteLine(cript1);
+                    Console.WriteLine("Pressione qualquer tecla para continuar...");
+                    Console.ReadKey();
+                    Console.Clear();
                 }
-               else
+                else
                 {
+                    //loop caso a chave digitada esteja incorreta
                     Console.WriteLine("Digite a sua chave:");
                     id = int.Parse(Console.ReadLine());
                 }
             }
-            Console.ReadKey();
         }
+        //função de conversão para binário
         public static string StringToBinary(string data)
         {
            
