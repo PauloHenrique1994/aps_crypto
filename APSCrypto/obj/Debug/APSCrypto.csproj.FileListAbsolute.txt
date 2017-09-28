@@ -1,0 +1,6 @@
+c:\users\paulo\documents\visual studio 2015\Projects\APSCrypto\APSCrypto\bin\Debug\APSCrypto.exe.config
+c:\users\paulo\documents\visual studio 2015\Projects\APSCrypto\APSCrypto\bin\Debug\APSCrypto.exe
+c:\users\paulo\documents\visual studio 2015\Projects\APSCrypto\APSCrypto\bin\Debug\APSCrypto.pdb
+c:\users\paulo\documents\visual studio 2015\Projects\APSCrypto\APSCrypto\obj\Debug\APSCrypto.csprojResolveAssemblyReference.cache
+c:\users\paulo\documents\visual studio 2015\Projects\APSCrypto\APSCrypto\obj\Debug\APSCrypto.exe
+c:\users\paulo\documents\visual studio 2015\Projects\APSCrypto\APSCrypto\obj\Debug\APSCrypto.pdb
