@@ -11,52 +11,101 @@ namespace APSCrypto
         static void Main(string[] args)
         {
             //variaveis das mensagens não criptografadas
-            string msg1, msg2, cript1, cript2;
+            string msgParaCrypto, msg2, cript1, cript2;
+
             //variavel de identificação do usuário
-            int id;
-            //array com as senhas cadastradas
-            int[] senha = new int[2];
+            string confUsuario, senhaDeCryptografia, confirmaSenha;
+
+            //array com usuários cadastrados
+            string[] usuarios = new string[2];
+
+            //variáveis de controle
+            char continua = 's';
+            int i = 0;
+            bool valida = false;
 
 
-            //cadastro da chave do usuário
-            Console.WriteLine("Cadastre a sua chave:");
-            senha[0] = int.Parse(Console.ReadLine());
-            //cadastro da chave do segundo usuário
-            Console.WriteLine("Cadastre a chave a segunda chave:");
-            senha[1] = int.Parse(Console.ReadLine());
+            //cadastro da senha para crytografar e descryptografar
+            Console.WriteLine("Cadastre a chave para cryptografar e descryptografar:");
+            senhaDeCryptografia = Console.ReadLine();
 
-            Console.Clear();
-
-            //entrada da chave do usuário
-            Console.WriteLine("Digite a sua chave:");
-            id = int.Parse(Console.ReadLine());
-
-            Console.Clear();
-
-            //leitura do array
-            foreach (char i in senha)
+            //cadastro do id do usuario que podera ler a mensagem
+            Console.WriteLine("Cadastre os usuários que poderão ler a mensagem");
+            do
             {
-               //comparação se a chave do usuário está cadastrada no array
-               if(id == i)
-                {
-                    Console.WriteLine("Escreva o caralho:");
-                    msg1 = Console.ReadLine();
+                usuarios[i] = Console.ReadLine();
 
-                    //chamada da função de conversão para binário
-                    cript1 = (StringToBinary(msg1));
-                    Console.WriteLine(cript1);
-                    Console.WriteLine("Pressione qualquer tecla para continuar...");
-                    Console.ReadKey();
-                    Console.Clear();
-                }
-                else
+                i++;
+
+                Console.WriteLine("Deseja cadastrar mais um usuário? s/n");
+                continua = char.Parse(Console.ReadLine());
+            } while (continua == 's');
+
+            Console.Clear();
+
+            //entrada da senha para cryptografar a mensagem
+            Console.WriteLine("Digite a sua senha de cryptografia");
+            do
+            {
+                confirmaSenha = Console.ReadLine();
+
+                Console.Clear();
+
+                Console.WriteLine("Senha incorreta digite novamente");
+            } while (confirmaSenha != senhaDeCryptografia);
+
+            //reset da confirmação de senha
+            confirmaSenha = "";
+
+            Console.Clear();
+
+            //entrada da mensagem para ser cryptografada
+            Console.WriteLine("Escreva o caralho:");
+            msgParaCrypto = Console.ReadLine();
+
+            //chamada da função de conversão para binário
+            cript1 = (StringToBinary(msgParaCrypto));
+            Console.WriteLine(cript1);
+            Console.WriteLine("Pressione qualquer tecla para continuar...");
+            Console.Clear();
+
+            //entrada do usuário cadastrado de leitura
+            do
+            {
+                Console.WriteLine("Digite um usuário cadastrado para efetuar a leitura da mensagem");
+                confUsuario = Console.ReadLine();
+
+                //verificação no array de usuarios se o usuário informado existe
+                foreach (string c in usuarios)
                 {
-                    //loop caso a chave digitada esteja incorreta
-                    Console.WriteLine("Digite a sua chave:");
-                    id = int.Parse(Console.ReadLine());
+                    //caso exista
+                    if (confUsuario == c)
+                    {
+                        //confirmação da senha para a leitura da mensagem
+                        do
+                        {
+                            Console.WriteLine("Digite a senha para ler a mensagem");
+                            confirmaSenha = Console.ReadLine();
+                            Console.Clear();
+                            Console.WriteLine("Senha incorreta digite novamente");
+                        } while (confirmaSenha != senhaDeCryptografia);
+
+                        Console.Clear();
+                        //linha de teste para ver se as validações estão corretas ainda temos que descriptogar a mensagem
+                        Console.WriteLine(msgParaCrypto);
+                        valida = true;
+                    }
                 }
-            }
+
+                if (valida == false)
+                {
+                    Console.WriteLine("Usuário não encontrado digite um usuário valido");
+                }
+            } while (valida == false);
+
+            Console.ReadKey();
         }
+
         //função de conversão para binário
         public static string StringToBinary(string data)
         {
