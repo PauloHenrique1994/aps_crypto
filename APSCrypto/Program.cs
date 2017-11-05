@@ -41,15 +41,27 @@ namespace APSCrypto
             {
                 if (numeroPrimo > 2)
                 {
-                    for (i = 2; i < texto.Length / 2; i++)
+                    if (numeroPrimo == 3)
                     {
-                        if (numeroPrimo % i == 0)
+                        valida = true;
+                    }
+                    else if (numeroPrimo == 4 || numeroPrimo == 5)
+                    {
+                        numeroPrimo = 7;
+                        valida = true;
+                    }
+                    else
+                    {
+                        for (i = 2; i < texto.Length / 2; i++)
                         {
-                            numeroPrimo++;
-                        }
-                        else
-                        {
-                            valida = true;
+                            if (numeroPrimo % i == 0)
+                            {
+                                numeroPrimo++;
+                            }
+                            else
+                            {
+                                valida = true;
+                            }
                         }
                     }
                 }
@@ -65,7 +77,6 @@ namespace APSCrypto
             for (i = 0; i < texto.Length; i++)
             {
                 ascii[i, 0, 0] = (int)texto[i];
-
                 //multiplicação do código ascii pelo número primo
                 ascii[i, 0, 0] *= numeroPrimo;
             }
@@ -81,7 +92,7 @@ namespace APSCrypto
                     //iniciação do contador utilizado mais a frente
                     ascii[i, x, 1] = 0;
                     //caso o número seja maior que 10.000
-                    if (ascii[i, 0, 0] > 10000)
+                    if (ascii[i, 0, 0] >= 10000)
                     {
                         dezmilhar = ascii[i, 0, 0] / 10000;
                         milhar = ascii[i, 0, 0] % 10000;
@@ -113,7 +124,7 @@ namespace APSCrypto
                         }
                     }
                     //caso o número seja maior que 1.000
-                    else if (ascii[i, 0, 0] > 1000)
+                    else if (ascii[i, 0, 0] >= 1000)
                     {
                         milhar = ascii[i, 0, 0] / 1000;
                         cent = ascii[i, 0, 0] % 1000;
@@ -138,7 +149,7 @@ namespace APSCrypto
                         }
                     }
                     //caso o número seja maior que 100
-                    else if (ascii[i, 0, 0] > 100)
+                    else if (ascii[i, 0, 0] >= 100)
                     {
                         cent = ascii[i, 0, 0] / 100;
                         dez = ascii[i, 0, 0] % 100;
@@ -165,11 +176,14 @@ namespace APSCrypto
                         dez = ascii[i, 0, 0] / 10;
                         unid = ascii[i, 0, 0] % 10;
 
-                        if (ascii[i, x, 0] != 1)
+                        ascii[i, x, 0] = dez * 10 + unid;
+
+                        if (j > 0)
                         {
                             ascii[i, x, 0] = 0;
                         }
-                        ascii[i, x, 0] = dez * 10 + unid;
+
+                        j++;
                     }
 
                     //caso o valor separado seja menor que 33 incrementar o número primo até ficar maior que 33, pois na tabela
@@ -178,7 +192,6 @@ namespace APSCrypto
                     {
                         ascii[i, x, 0] += numeroPrimo;
                         ascii[i, x, 1]++;
-
                     }
                 }
             }
@@ -204,6 +217,7 @@ namespace APSCrypto
             //======================================Incio da descriptografia=====================================================
             int[] asciiDescripto = new int[cryptografia.Length];
             int[] descripto = new int[texto.Length];
+            j = 0;
 
             string textoOriginal = string.Empty;
 
@@ -211,6 +225,7 @@ namespace APSCrypto
             for (i = 0; i < cryptografia.Length; i++)
             {
                 asciiDescripto[i] = (int)cryptografia[i];
+
             }
 
             //decrementado o número primo no código ascii que ficou abaixo de 33 para ele voltar ao seu valor original
