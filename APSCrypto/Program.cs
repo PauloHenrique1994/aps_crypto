@@ -77,8 +77,10 @@ namespace APSCrypto
             for (i = 0; i < texto.Length; i++)
             {
                 ascii[i, 0, 0] = (int)texto[i];
+                Console.WriteLine("Código sem multiplicação " + ascii[i, 0, 0]);
                 //multiplicação do código ascii pelo número primo
                 ascii[i, 0, 0] *= numeroPrimo;
+                Console.WriteLine("Código com multiplicação " + ascii[i, 0, 0]);
             }
 
             //separação do código ascii multiplicado em 2 caracteres (unid, dezena, centena, milhar, dezena de milhar)
@@ -86,6 +88,7 @@ namespace APSCrypto
             //passar por toda 1° dimensão do array com os decimais do texto original
             for (i = 0; i < texto.Length; i++)
             {
+                j = 0;
                 //passar por toda 2° dimensão do array com os decimais do texto original e separar de 2 em 2 caracteres
                 for (x = 1; x < 4; x++)
                 {
@@ -193,6 +196,7 @@ namespace APSCrypto
                         ascii[i, x, 0] += numeroPrimo;
                         ascii[i, x, 1]++;
                     }
+                    Console.WriteLine("Código separado " + ascii[i, x, 0] + " Contador " + ascii[i, x, 1] + " Primo " + numeroPrimo);
                 }
             }
             //fim da separação
