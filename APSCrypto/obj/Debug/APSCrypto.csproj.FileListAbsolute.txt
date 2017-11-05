@@ -18,3 +18,10 @@ C:\Users\mravi\Downloads\aps_crypto-master\APSCrypto\obj\Debug\APSCrypto.csproj.
 C:\Users\mravi\Downloads\aps_crypto-master\APSCrypto\obj\Debug\APSCrypto.exe
 C:\Users\mravi\Downloads\aps_crypto-master\APSCrypto\obj\Debug\APSCrypto.pdb
 C:\Users\mravi\Downloads\aps_crypto-master\APSCrypto\bin\Debug\APSCrypto.pdb
+C:\Users\mravi\Documents\Maycon\Unip\APS\aps2\codigo\cryptografiaCode\APSCrypto\bin\Debug\APSCrypto.exe.config
+C:\Users\mravi\Documents\Maycon\Unip\APS\aps2\codigo\cryptografiaCode\APSCrypto\bin\Debug\APSCrypto.exe
+C:\Users\mravi\Documents\Maycon\Unip\APS\aps2\codigo\cryptografiaCode\APSCrypto\bin\Debug\APSCrypto.pdb
+C:\Users\mravi\Documents\Maycon\Unip\APS\aps2\codigo\cryptografiaCode\APSCrypto\obj\Debug\APSCrypto.csprojResolveAssemblyReference.cache
+C:\Users\mravi\Documents\Maycon\Unip\APS\aps2\codigo\cryptografiaCode\APSCrypto\obj\Debug\APSCrypto.csproj.CoreCompileInputs.cache
+C:\Users\mravi\Documents\Maycon\Unip\APS\aps2\codigo\cryptografiaCode\APSCrypto\obj\Debug\APSCrypto.exe
+C:\Users\mravi\Documents\Maycon\Unip\APS\aps2\codigo\cryptografiaCode\APSCrypto\obj\Debug\APSCrypto.pdb

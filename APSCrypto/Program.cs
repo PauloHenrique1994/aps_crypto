@@ -12,31 +12,13 @@ namespace APSCrypto
         {
             string teste;
 
-            // exemplo de matriz multidimensional -----------> int[,] numeros = new int[5, 2];
-
             Console.WriteLine("Digite o teste");
             teste = Console.ReadLine();
 
-            //Console.WriteLine(StringToBinary(teste));
             StringToAscii(teste);
 
             Console.ReadKey();
         }
-
-
-        //converte para binario
-        public static string StringToBinary(string data)
-        {
-
-            StringBuilder sb = new StringBuilder();
-
-            foreach (char c in data.ToCharArray())
-            {
-                sb.Append(Convert.ToString(c, 2).PadLeft(8, '0'));
-            }
-            return sb.ToString();
-        }
-
 
 
 
@@ -45,162 +27,159 @@ namespace APSCrypto
         {
             //números primos 2, 3, 5, 7, 11, 13
             //declaração das variáveis
-            int resto, numeroPrimo, quociente;
+            int numeroPrimo, i, x, j = 0;
             numeroPrimo = texto.Length;
 
-            int[,] ascii = new int[texto.Length, 5];
-            int[] primos = new int[6] {2, 3, 5, 7, 11, 13};
+            int[,,] ascii = new int[texto.Length, 4, 2];
 
             bool valida = false;
-            
-            
-            //escolher um número primo
+
+
+            //escolher o proximo número primo referente ao tamanho do texto digitado pelo usuario
+            numeroPrimo = texto.Length;
             do
             {
-                for (int i = 0; i < 6; i++)
+                if (numeroPrimo > 2)
                 {
-                    quociente = numeroPrimo / primos[i];
-                    resto = numeroPrimo % primos[i];
-
-                    if (resto != 0)
+                    for (i = 2; i < texto.Length / 2; i++)
                     {
-                        if (quociente <= primos[i])
+                        if (numeroPrimo % i == 0)
+                        {
+                            numeroPrimo++;
+                        }
+                        else
                         {
                             valida = true;
                         }
                     }
-                    else
-                    {
-                        break;
-                    }
                 }
-
-                if (valida == false)
+                else
                 {
-                    numeroPrimo += 1;
+                    numeroPrimo = 2;
+                    valida = true;
                 }
-
-            } while (valida == false);
+            } while (!valida);
 
 
             // tranforma a string em código ascii
-            for (int i = 0; i < texto.Length; i++)
+            for (i = 0; i < texto.Length; i++)
             {
-                ascii[i, 0] = (int)texto[i];
+                ascii[i, 0, 0] = (int)texto[i];
 
-                //multiplicação do código ascii
-                ascii[i, 0] *= numeroPrimo;
-                //Console.WriteLine("ASCII múltiplicado" + ascii[i, 0]);
+                //multiplicação do código ascii pelo número primo
+                ascii[i, 0, 0] *= numeroPrimo;
             }
 
-
-            //separação do código ascii multiplicado em 2 caracteres 
+            //separação do código ascii multiplicado em 2 caracteres (unid, dezena, centena, milhar, dezena de milhar)
             int dezmilhar, milhar, cent, dez, unid;
             //passar por toda 1° dimensão do array com os decimais do texto original
-            for (int i = 0; i < texto.Length; i++)
+            for (i = 0; i < texto.Length; i++)
             {
                 //passar por toda 2° dimensão do array com os decimais do texto original e separar de 2 em 2 caracteres
-                for (int x = 1; x < 5; x++)
+                for (x = 1; x < 4; x++)
                 {
+                    //iniciação do contador utilizado mais a frente
+                    ascii[i, x, 1] = 0;
                     //caso o número seja maior que 10.000
-                    if (ascii[i, 0] > 10000)
+                    if (ascii[i, 0, 0] > 10000)
                     {
-                        dezmilhar = ascii[i, 0] / 10000;
-                        milhar = ascii[i, 0] % 10000;
+                        dezmilhar = ascii[i, 0, 0] / 10000;
+                        milhar = ascii[i, 0, 0] % 10000;
 
                         milhar /= 1000;
-                        cent = ascii[i, 0] % 1000;
+                        cent = ascii[i, 0, 0] % 1000;
 
                         cent /= 100;
-                        dez = ascii[i, 0] % 100;
+                        dez = ascii[i, 0, 0] % 100;
 
                         dez /= 10;
-                        unid = ascii[i, 0] % 10;
-                        
+                        unid = ascii[i, 0, 0] % 10;
+
                         if (x == 1)
                         {
-                            ascii[i, x] = dez * 10 + unid;
+                            ascii[i, x, 0] = dez * 10 + unid;
                         }
                         else if (x == 2)
                         {
-                            ascii[i, x] = milhar * 10 + cent;
+                            ascii[i, x, 0] = milhar * 10 + cent;
                         }
-                        else if(x == 1)
+                        else if (x == 3)
                         {
-                            ascii[i, x] = dezmilhar * 10;
+                            ascii[i, x, 0] = dezmilhar;
                         }
                         else
                         {
-                            ascii[i, x] = 0;
+                            ascii[i, x, 0] = 0;
                         }
                     }
                     //caso o número seja maior que 1.000
-                    else if (ascii[i, 0] > 1000)
+                    else if (ascii[i, 0, 0] > 1000)
                     {
-                        milhar = ascii[i, 0] / 1000;
-                        cent = ascii[i, 0] % 1000;
+                        milhar = ascii[i, 0, 0] / 1000;
+                        cent = ascii[i, 0, 0] % 1000;
 
                         cent /= 100;
-                        dez = ascii[i, 0] % 100;
+                        dez = ascii[i, 0, 0] % 100;
 
                         dez /= 10;
-                        unid = ascii[i, 0] % 10;
+                        unid = ascii[i, 0, 0] % 10;
 
                         if (x == 1)
                         {
-                            ascii[i, x] = dez * 10 + unid;
+                            ascii[i, x, 0] = dez * 10 + unid;
                         }
                         else if (x == 2)
                         {
-                            ascii[i, x] = milhar * 10 + cent;
+                            ascii[i, x, 0] = milhar * 10 + cent;
                         }
                         else
                         {
-                            ascii[i, x] = 0;
+                            ascii[i, x, 0] = 0;
                         }
                     }
                     //caso o número seja maior que 100
-                    else if (ascii[i, 0] > 100)
+                    else if (ascii[i, 0, 0] > 100)
                     {
-                        cent = ascii[i, 0] / 100;
-                        dez = ascii[i, 0] % 100;
+                        cent = ascii[i, 0, 0] / 100;
+                        dez = ascii[i, 0, 0] % 100;
 
                         dez /= 10;
-                        unid = ascii[i, 0] % 10;
+                        unid = ascii[i, 0, 0] % 10;
 
-                        if(x == 1)
+                        if (x == 1)
                         {
-                            ascii[i, x] = dez * 10 + unid;
+                            ascii[i, x, 0] = dez * 10 + unid;
                         }
                         else if (x == 2)
                         {
-                            ascii[i, x] = cent * 10;
+                            ascii[i, x, 0] = cent;
                         }
                         else
                         {
-                            ascii[i, x] = 0;
+                            ascii[i, x, 0] = 0;
                         }
                     }
                     //caso o número seja maior que 10
                     else
                     {
-                        dez = ascii[i, 0] / 10;
-                        unid = ascii[i, 0] % 10;
-                        
-                        if(ascii[i, x] != 1)
+                        dez = ascii[i, 0, 0] / 10;
+                        unid = ascii[i, 0, 0] % 10;
+
+                        if (ascii[i, x, 0] != 1)
                         {
-                            ascii[i, x] = 0;
+                            ascii[i, x, 0] = 0;
                         }
-
-                        ascii[i, x] = dez * 10 + unid;
+                        ascii[i, x, 0] = dez * 10 + unid;
                     }
 
-                    while (ascii[i, x] < 33)
+                    //caso o valor separado seja menor que 33 incrementar o número primo até ficar maior que 33, pois na tabela
+                    //ascii os caracteres estão do número 34 pra cima
+                    while (ascii[i, x, 0] < 33)
                     {
-                        ascii[i, x] += numeroPrimo;
-                    }
+                        ascii[i, x, 0] += numeroPrimo;
+                        ascii[i, x, 1]++;
 
-                    //Console.WriteLine("Separação " + ascii[i, x]);
+                    }
                 }
             }
             //fim da separação
@@ -209,31 +188,63 @@ namespace APSCrypto
             //criando a cryptografia
             string cryptografia = string.Empty;
 
-            for (int i = 0; i < texto.Length; i++)
+            for (i = 0; i < texto.Length; i++)
             {
-                for (int x = 1; x < 5; x++)
+                for (x = 1; x < 4; x++)
                 {
-                    cryptografia += ((char)ascii[i, x]).ToString();
+                    cryptografia += ((char)ascii[i, x, 0]).ToString();
                 }
             }
             Console.WriteLine("Cryptografia: " + cryptografia);
+            //================================Fim da criptografia================================================================
 
+            Console.WriteLine("Digite enter para Descrytografar");
+            Console.ReadLine();
+
+            //======================================Incio da descriptografia=====================================================
+            int[] asciiDescripto = new int[cryptografia.Length];
+            int[] descripto = new int[texto.Length];
+
+            string textoOriginal = string.Empty;
+
+            //Tranformação da criptografia em código ascii
+            for (i = 0; i < cryptografia.Length; i++)
+            {
+                asciiDescripto[i] = (int)cryptografia[i];
+            }
+
+            //decrementado o número primo no código ascii que ficou abaixo de 33 para ele voltar ao seu valor original
+            for (i = 0; i < texto.Length; i++)
+            {
+                for (x = 1; x < 4; x++)
+                {
+                    if (ascii[i, x, 1] != 0)
+                    {
+                        asciiDescripto[j] -= (ascii[i, x, 1] * numeroPrimo);
+                    }
+                    j++;
+                }
+            }
+
+            j = 0;
 
             /*
-            // transforma de ascii em string
-            string textoOriginal = string.Empty;
-            char[] asciiStrCodes = new char[data.Length];
-
-            for (int i = 0; i < data.Length; i++)
-            {
-                asciiStrCodes[i] = (char)x[i];
-                textoOriginal += ((char)x[i]).ToString();
-                //Imprime na tela uma letra de cada vez
-                Console.WriteLine(asciiStrCodes[i]);
-            }
-            //imprime na tela a frase completa
-            Console.WriteLine(textoOriginal);
+             * Com o código sem o incremento, agora irá fazer a junção do valores que foram divididos de 2 em 2 (unid, dez, cent,
+             * milhar, dezena de milhar).
             */
+            for (i = 0; i < texto.Length; i++)
+            {
+                descripto[i] = (asciiDescripto[j + 2] * 10000) + (asciiDescripto[j + 1] * 100) + asciiDescripto[j];
+
+                //dividindo o código pelo número primo para voltar ao valor original
+                descripto[i] /= numeroPrimo;
+
+                //voltando o código para texto
+                textoOriginal += ((char)descripto[i]).ToString();
+                j += 3;
+            }
+
+            Console.WriteLine("Texto original " + textoOriginal);
         }
     }
 }
