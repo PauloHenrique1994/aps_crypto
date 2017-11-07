@@ -43,7 +43,7 @@ namespace APSCrypto
             Console.Clear();
 
             //entrada da mensagem para ser cryptografada
-            Console.WriteLine("Escreva o caralho:");
+            Console.WriteLine("Digite a mensagem a ser criptografada:");
             msgParaCrypto = Console.ReadLine();
 
             //==================================================Começo da criptografia===========================================
@@ -199,7 +199,6 @@ namespace APSCrypto
                         }
                         j++;
                     }
-                    Console.WriteLine(ascii[i, x, 0]);
 
                     /*caso o valor separado seja menor que 33 incrementar o número primo até ficar maior que 33, pois na tabela
                      *ascii os caracteres estão do número 34 pra cima
