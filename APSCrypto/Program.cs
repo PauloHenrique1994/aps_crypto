@@ -11,44 +11,35 @@ namespace APSCrypto
         static void Main(string[] args)
         {
             //variaveis das mensagens não criptografadas
-            string msgParaCrypto, cryptografia = string.Empty, textoOriginal = string.Empty;
+            string msgParaCripto, criptografia = string.Empty, textoOriginal = string.Empty;
 
             //variavel de identificação do usuário
-            string senhaDeCryptografia, confirmaSenha;
+            string senhaDeCriptografia;
 
             //variáveis de controle
             int numeroPrimo, i = 0, x = 0, j = 0;
             bool valida = false;
 
-            //cadastro da senha para crytografar e descryptografar
+            //cadastro da senha para critografar e descriptografar
             Console.WriteLine("Cadastre a chave para criptografar e descriptografar a mensagem:");
-            senhaDeCryptografia = Console.ReadLine();
+            senhaDeCriptografia = Console.ReadLine();
 
             Console.Clear();
 
-            //entrada da senha para cryptografar a mensagem
-            Console.WriteLine("Digite a sua senha de cryptografia");
-            do
-            {
-                confirmaSenha = Console.ReadLine();
-
-                Console.Clear();
-
-                Console.WriteLine("Senha incorreta digite novamente");
-            } while (confirmaSenha != senhaDeCryptografia);
-
-            //reset da confirmação de senha
-            confirmaSenha = "";
-
+            //entrada da senha para criptografar a mensagem
+            Console.WriteLine("Digite a sua chave");
+            //Chamada da função que confirma a senha
+            ConfereSenha(senhaDeCriptografia);
+            
             Console.Clear();
 
-            //entrada da mensagem para ser cryptografada
+            //entrada da mensagem para ser criptografada
             Console.WriteLine("Digite a mensagem a ser criptografada:");
-            msgParaCrypto = Console.ReadLine();
+            msgParaCripto = Console.ReadLine();
 
             //==================================================Começo da criptografia===========================================
-            numeroPrimo = msgParaCrypto.Length;
-            int[,,] ascii = new int[msgParaCrypto.Length, 4, 2];
+            numeroPrimo = msgParaCripto.Length + senhaDeCriptografia.Length;
+            int[,,] ascii = new int[msgParaCripto.Length, 4, 2];
 
             //escolher o proximo número primo referente ao tamanho do texto digitado pelo usuario
             do
@@ -66,7 +57,7 @@ namespace APSCrypto
                     }
                     else
                     {
-                        for (i = 2; i < msgParaCrypto.Length / 2; i++)
+                        for (i = 2; i < msgParaCripto.Length / 2; i++)
                         {
                             if (numeroPrimo % i == 0)
                             {
@@ -87,9 +78,9 @@ namespace APSCrypto
             } while (!valida);
 
             // tranforma a string em código ascii
-            for (i = 0; i < msgParaCrypto.Length; i++)
+            for (i = 0; i < msgParaCripto.Length; i++)
             {
-                ascii[i, 0, 0] = (int)msgParaCrypto[i];
+                ascii[i, 0, 0] = (int)msgParaCripto[i];
                 //multiplicação do código ascii pelo número primo
                 ascii[i, 0, 0] *= numeroPrimo;
             }
@@ -98,7 +89,7 @@ namespace APSCrypto
             int dezmilhar, milhar, cent, dez, unid;
 
             //passar por toda 1° dimensão do array com os decimais do texto original
-            for (i = 0; i < msgParaCrypto.Length; i++)
+            for (i = 0; i < msgParaCripto.Length; i++)
             {
                 j = 0;
                 //passar por toda 2° dimensão do array com os decimais do texto original e separar de 2 em 2 caracteres
@@ -213,33 +204,28 @@ namespace APSCrypto
             //fim da separação
 
             //criando a cryptografia
-            for (i = 0; i < msgParaCrypto.Length; i++)
+            for (i = 0; i < msgParaCripto.Length; i++)
             {
                 for (x = 1; x < 4; x++)
                 {
-                    cryptografia += ((char)ascii[i, x, 0]).ToString();
+                    criptografia += ((char)ascii[i, x, 0]).ToString();
                 }
             }
-            Console.WriteLine("A sua mensagem criptografada é: " + cryptografia);
+            Console.WriteLine("A sua mensagem criptografada é: " + criptografia);
             //================================Fim da criptografia================================================================
 
             Console.Write("\nPressione qualquer tecla para continuar...");
             Console.ReadKey();
-            Console.Clear();
 
             //Entrada da senha para realizar a descriptografia
-            int[] asciiDescripto = new int[cryptografia.Length];
-            int[] descripto = new int[msgParaCrypto.Length];
+            int[] asciiDescripto = new int[criptografia.Length];
+            int[] descripto = new int[msgParaCripto.Length];
             j = 0;
 
             //Verificação se a senha esta correta
-            do
-            {
-                Console.WriteLine("Digite a senha para ler a mensagem");
-                confirmaSenha = Console.ReadLine();
-                Console.Clear();
-                Console.WriteLine("Senha incorreta digite novamente");
-            } while (confirmaSenha != senhaDeCryptografia);
+            Console.WriteLine("Digite a sua chave para efetuar a leitura da mensagem");
+            //Chamada da função que confirma a senha
+            ConfereSenha(senhaDeCriptografia);
 
             Console.Clear();
             //QUANDO O USUÁRIO ACERTAR A SENHA
@@ -247,13 +233,13 @@ namespace APSCrypto
             //======================================Incio da descriptografia==========================================
 
             //Tranformação da criptografia em código ascii
-            for (i = 0; i < cryptografia.Length; i++)
+            for (i = 0; i < criptografia.Length; i++)
             {
-                asciiDescripto[i] = (int)cryptografia[i];
+                asciiDescripto[i] = (int)criptografia[i];
             }
 
             //decrementado o número primo no código ascii que ficou abaixo de 33 para ele voltar ao seu valor original
-            for (i = 0; i < msgParaCrypto.Length; i++)
+            for (i = 0; i < msgParaCripto.Length; i++)
             {
                 for (x = 1; x < 4; x++, j++)
                 {
@@ -268,7 +254,7 @@ namespace APSCrypto
                 * Com o código sem o incremento, agora irá fazer a junção do valores que foram divididos 
                 * de 2 em 2 (unid, dez, cent, milhar, dezena de milhar).
             */
-            for (i = 0, j = 0; i < msgParaCrypto.Length; i++, j += 3)
+            for (i = 0, j = 0; i < msgParaCripto.Length; i++, j += 3)
             {
                 descripto[i] = (asciiDescripto[j + 2] * 10000) + (asciiDescripto[j + 1] * 100) + asciiDescripto[j];
 
@@ -283,5 +269,20 @@ namespace APSCrypto
 
             Console.ReadKey();
         }
-    }
+
+        //Função para validar a senha digitada pelo usuário
+        public static void ConfereSenha(string senha)
+        {
+            string confirmaSenha = String.Empty;
+
+            do
+            {
+                confirmaSenha = Console.ReadLine();
+
+                Console.Clear();
+
+                Console.WriteLine("Senha incorreta digite novamente");
+            } while (confirmaSenha != senha);
+        }
+    }       
 }
